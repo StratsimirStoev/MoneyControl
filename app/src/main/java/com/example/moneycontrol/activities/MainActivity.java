@@ -3,11 +3,17 @@ package com.example.moneycontrol.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -38,16 +44,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, NavigationView.OnNavigationItemSelectedListener{
 
-    private ImageView               mDrawerImg;
-    private ImageView               mSearchImg;
-    private ImageView               mCloseImg;
-    private FloatingActionButton    mAddFAB;
-    private ListView                mTransactionsListView;
-    private LinearLayout            mSearchLayout;
-    private LinearLayout            mTitleLayout;
-    private EditText                mSearchEdt;
+    private ImageView                      mDrawerImg;
+    private ImageView                      mSearchImg;
+    private ImageView                      mCloseImg;
+    private FloatingActionButton           mAddFAB;
+    private ListView                       mTransactionsListView;
+    private LinearLayout                   mSearchLayout;
+    private LinearLayout                   mTitleLayout;
+    private EditText                       mSearchEdt;
+    private DrawerLayout                   mDrawerLayout;
+    private NavigationView                 mNavigationView;
 
     private double                         mDebit;
     private double                         mCredit;
@@ -77,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearchLayout           = findViewById(R.id.search_layout);
         mTitleLayout            = findViewById(R.id.title_layout);
         mSearchEdt              = findViewById(R.id.search_edt);
+        mDrawerLayout           = findViewById(R.id.drawer_layout);
+        mNavigationView         = findViewById(R.id.nav_view);
 
         TextView mTitleTxt  = findViewById(R.id.title_txt);
 
@@ -91,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCloseImg.setOnClickListener(this);
         mAddFAB.setOnClickListener(this);
         mSearchEdt.addTextChangedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setAdapter(){
@@ -101,11 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void selectTransactions(){
         DatabaseQuery query = new DatabaseQuery();
         query.execute();
-    }
-
-    private void startChoosePasscodeActivity(){
-        Intent intent = new Intent(this, ChoosePasscodeActivity.class);
-        startActivity(intent);
     }
 
     private void showSearch(final boolean show){
@@ -199,7 +205,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showSearch(false);
         }
         else if(view.getId() == mDrawerImg.getId()){
-
+            if(!mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                mDrawerLayout.openDrawer(GravityCompat.START);
         }
         else if(view.getId() == mAddFAB.getId()){
             Intent intent = new Intent(this, AddTransactionActivity.class);
@@ -220,6 +227,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_settings:
+                if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                }, 200);
+
+                break;
+        }
+
+        return false;
     }
 
     private class DatabaseQuery extends AsyncTask<Void, Void, Void> {

@@ -18,7 +18,6 @@ public class Utils {
     public static final String      PREFERENCES_USE_FINGERPRINT_WHEN_LOG_IN         = "use_fingerprint";
     public static final String      PREFERENCES_IS_FINGERPRINT_SET                  = "is_fingerprint_set";
     public static final String      PREFERENCES_FINGERPRINT                         = "fingerprint";
-    public static final String      PREFERENCES_USER_PASSWORD                       = "user_password";
 
     public static final String      TEMP_FINGERPRINT_KEY_NAME           = "temp_fingerprint_key";
     public static final String      FINGERPRINT_KEY_NAME                = "fingerprint_key";

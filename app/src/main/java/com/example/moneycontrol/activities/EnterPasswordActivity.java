@@ -25,6 +25,8 @@ import com.example.moneycontrol.customClasses.Utils;
 
 public class EnterPasswordActivity extends AppCompatActivity implements View.OnClickListener, FingerprintHandler.OnAuthenticationErrorListener, FingerprintHandler.OnAuthenticationSucceededListener {
 
+    public final static int             USE_FINGERPRINT             = 90;
+
     private Button                      mLoginBtn;
     private CustomEditText              mPasswordEdt;
 
@@ -84,10 +86,16 @@ public class EnterPasswordActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setFingerPrintScanner(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.USE_FINGERPRINT}, USE_FINGERPRINT);
+                return;
+            }
+        }
+
         mFingerprintHandler = new FingerprintHandler(this);
 
         if(mSharedPreferences.getBoolean(Utils.PREFERENCES_USE_FINGERPRINT_WHEN_LOG_IN, true) &&
-                !mSharedPreferences.getString(Utils.PREFERENCES_USER_PASSWORD, "").isEmpty() &&
                 mFingerprintHandler.isFingerScannerAvailableAndSet()) {
 
             mFingerprintHandler.setOnAuthenticationSucceededListener(this);

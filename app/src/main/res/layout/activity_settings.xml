@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android               ="http://schemas.android.com/apk/res/android"
+    xmlns:tools                 ="http://schemas.android.com/tools"
+    android:layout_width        ="match_parent"
+    android:layout_height       ="match_parent"
+    android:orientation         ="vertical"
+    tools:context               =".activities.SettingsActivity">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <LinearLayout
+        android:id              ="@+id/change_password_layout"
+        android:layout_width    ="match_parent"
+        android:layout_height   ="50dp"
+        android:gravity         ="center_vertical"
+        android:paddingStart    ="16dp"
+        android:paddingEnd      ="16dp">
+
+        <TextView
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:text            ="@string/change_password"
+            android:textSize        ="18sp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width        ="match_parent"
+        android:layout_height       ="0.5dp"
+        android:layout_marginLeft   ="16dp"
+        android:layout_marginRight  ="16dp"
+        android:background          ="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:id              ="@+id/fingerprint_layout"
+        android:layout_width    ="match_parent"
+        android:layout_height   ="50dp"
+        android:orientation     ="horizontal"
+        android:gravity         ="center_vertical"
+        android:paddingStart    ="16dp"
+        android:paddingEnd      ="16dp">
+
+        <TextView
+            android:layout_width    ="0dp"
+            android:layout_height   ="wrap_content"
+            android:layout_weight   ="1"
+            android:paddingEnd      ="10dp"
+            android:text            ="@string/link_fingerprint"
+            android:textSize        ="18sp"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id              ="@+id/fingerprint_checkbox"
+            android:layout_width    ="wrap_content"
+            android:layout_height   ="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -38,4 +38,11 @@
     <string name="use_login_code">Използвайте код за достъп</string>
     <string name="fingerprint_login">Вход с пръстов отпечатък</string>
     <string name="use_your_fingerprint_for_faster">Използвайте пръстовия си отпечатък за по-бърз и лесен вход. Потвърдете, за да продължите.</string>
+    <string name="settings">Настройки</string>
+    <string name="change_password">Смяна на парола</string>
+    <string name="link_fingerprint">Използвай пръстов отпечатък при вход</string>
+    <string name="password_is_changed">Паролата е сменена успешно.</string>
+    <string name="enter_old_password">Въведи парола</string>
+    <string name="enter_new_password">Въведи нова парола</string>
+    <string name="confirm_new_password">Потвърди новата парола</string>
 </resources>

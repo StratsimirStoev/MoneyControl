@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android               ="http://schemas.android.com/apk/res/android"
+    android:layout_width        ="match_parent"
+    android:layout_height       ="wrap_content"
+    android:layout_marginTop    ="10dp"
+    android:layout_marginBottom ="10dp"
+    android:paddingTop          ="10dp"
+    android:paddingBottom       ="10dp"
+    android:orientation         ="horizontal"
+    android:weightSum           ="2">
+
+    <LinearLayout
+        android:layout_width    ="0dp"
+        android:layout_height   ="wrap_content"
+        android:orientation     ="vertical"
+        android:layout_weight   ="1">
+
+        <TextView
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:text            ="@string/total"
+            android:textSize        ="25sp"/>
+
+        <TextView
+            android:id              ="@+id/total_txt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:textColor       ="@android:color/holo_green_dark"
+            android:text            ="50.00 лв."
+            android:textSize        ="35sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width    ="0dp"
+        android:layout_height   ="wrap_content"
+        android:layout_weight   ="1"
+        android:layout_marginTop="5dp"
+        android:gravity         ="end"
+        android:orientation     ="vertical">
+
+        <TextView
+            android:id              ="@+id/month_txt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:gravity         ="end"
+            android:text            ="@string/last_month"
+            android:textSize        ="20sp"/>
+
+        <TextView
+            android:id              ="@+id/montly_credit_txt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:gravity         ="end"
+            android:text            ="+50.00 лв."
+            android:textColor       ="@android:color/holo_green_dark"
+            android:textSize        ="25sp"/>
+
+        <TextView
+            android:id              ="@+id/montly_debit_txt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:gravity         ="end"
+            android:text            ="-50.00 лв."
+            android:textColor       ="@android:color/holo_red_dark"
+            android:textSize        ="25sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

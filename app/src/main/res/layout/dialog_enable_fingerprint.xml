@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android                   ="http://schemas.android.com/apk/res/android"
+    android:layout_width            ="match_parent"
+    android:layout_height           ="match_parent"
+    android:orientation             ="vertical"
+    android:paddingLeft             ="24dp"
+    android:paddingRight            ="8dp"
+    android:paddingTop              ="24dp"
+    android:paddingBottom           ="8dp"
+    android:background              ="@android:color/white">
+
+    <TextView
+        android:id              ="@+id/title_text_view"
+        android:layout_width    ="wrap_content"
+        android:layout_height   ="wrap_content"
+        android:text            ="@string/fingerprint_login"
+        android:textStyle       ="bold"
+        android:textSize        ="18sp" />
+
+    <TextView
+        android:id                  ="@+id/title_description_text"
+        android:layout_width        ="wrap_content"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="20dip"
+        android:layout_marginRight  ="16dp"
+        android:layout_marginBottom ="28dp"
+        android:textSize            ="16sp"
+        android:text                ="@string/use_your_fingerprint_for_faster" />
+
+    <LinearLayout
+        android:layout_width    ="match_parent"
+        android:layout_height   ="wrap_content"
+        android:orientation     ="horizontal">
+
+        <ImageView
+            android:id                  ="@+id/fingerprint_image_view"
+            android:layout_width        ="40dp"
+            android:layout_height       ="40dp"
+            android:layout_marginRight  ="16dp"
+            android:src                 ="@drawable/fingerprint_image"
+            android:layout_gravity      ="center"/>
+
+        <TextView
+            android:id                  ="@+id/info_text_view"
+            android:layout_width        ="wrap_content"
+            android:layout_height       ="wrap_content"
+            android:layout_gravity      ="center_vertical"
+            android:layout_marginRight  ="16dp"
+            android:text                ="@string/touch_sensor"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id                          ="@+id/cancel_btn"
+        android:layout_width                ="wrap_content"
+        android:layout_height               ="wrap_content"
+        android:layout_gravity              ="right"
+        android:layout_marginTop            ="24dp"
+        android:text                        ="@string/cancel"
+        android:textColor                   ="@color/colorPrimary"
+        style                               ="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+
+</LinearLayout>

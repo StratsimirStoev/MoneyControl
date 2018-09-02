@@ -92,7 +92,7 @@ public class ChoosePasscodeActivity extends AppCompatActivity implements View.On
             }
         }
         if(mFingerprintHandler.isFingerScannerAvailableAndSet() && !isFingerPrintSet) {
-            showEnableFingerprintDialog(true);
+            showEnableFingerprintDialog(false);
         }
         else {
             startMainActivity();

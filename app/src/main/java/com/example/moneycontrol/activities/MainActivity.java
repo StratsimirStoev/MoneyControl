@@ -1,5 +1,6 @@
 package com.example.moneycontrol.activities;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,13 +18,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.moneycontrol.MoneyControlDatabase;
@@ -46,9 +51,12 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, NavigationView.OnNavigationItemSelectedListener{
 
+    private static final int               FILTER_REQUEST_CODE  = 0;
+
     private ImageView                      mDrawerImg;
     private ImageView                      mSearchImg;
     private ImageView                      mCloseImg;
+    private ImageView                      mFilterImg;
     private FloatingActionButton           mAddFAB;
     private ListView                       mTransactionsListView;
     private LinearLayout                   mSearchLayout;
@@ -56,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText                       mSearchEdt;
     private DrawerLayout                   mDrawerLayout;
     private NavigationView                 mNavigationView;
+    private LinearLayout                   mFilterLayout;
 
     private double                         mDebit;
     private double                         mCredit;
@@ -87,12 +96,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearchEdt              = findViewById(R.id.search_edt);
         mDrawerLayout           = findViewById(R.id.drawer_layout);
         mNavigationView         = findViewById(R.id.nav_view);
+        mFilterImg              = findViewById(R.id.filter_img);
+        mFilterLayout           = findViewById(R.id.filter_layout);
 
         TextView mTitleTxt  = findViewById(R.id.title_txt);
 
         mTitleTxt.setText(R.string.app_name);
+        mFilterImg.setVisibility(View.VISIBLE);
         mDrawerImg.setImageResource(R.drawable.ic_menu);
         mSearchImg.setImageResource(R.drawable.ic_search);
+
+        mFilterLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mFilterLayout.setY(-mFilterLayout.getHeight());
+            }
+        });
     }
 
     private void setListeners(){
@@ -102,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAddFAB.setOnClickListener(this);
         mSearchEdt.addTextChangedListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
+        mFilterImg.setOnClickListener(this);
     }
 
     private void setAdapter(){
@@ -186,12 +206,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void showFilterLayout(final boolean in){
+        ObjectAnimator transAnimation= ObjectAnimator.ofFloat(mFilterLayout, "translationY", in ? -mFilterLayout.getHeight() : 0, in ? 0 : -mFilterLayout.getHeight());
+        transAnimation.setDuration(300);//set duration
+        transAnimation.start();//start animation
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == Utils.REQUEST_CODE_ADD_TRANSACTION && resultCode == RESULT_OK){
             selectTransactions();
+        }
+        else if(requestCode == FILTER_REQUEST_CODE  && resultCode == RESULT_OK){
+
         }
     }
 
@@ -211,6 +240,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view.getId() == mAddFAB.getId()){
             Intent intent = new Intent(this, AddTransactionActivity.class);
             startActivityForResult(intent, Utils.REQUEST_CODE_ADD_TRANSACTION);
+        }
+        else if(view.getId() == mFilterImg.getId()){
+            if(mFilterLayout.getY() < 0 )
+                showFilterLayout(true);
+            else
+                showFilterLayout(false);
         }
     }
 

@@ -45,4 +45,10 @@
     <string name="enter_old_password">Въведи парола</string>
     <string name="enter_new_password">Въведи нова парола</string>
     <string name="confirm_new_password">Потвърди новата парола</string>
+    <string name="start_date">Начална дата</string>
+    <string name="end_date">Крайна дата</string>
+    <string name="start_amount">Начална сума</string>
+    <string name="end_amount">Крайна сума</string>
+    <string name="reset">ИЗЧИСТИ</string>
+    <string name="apply">Приложи</string>
 </resources>

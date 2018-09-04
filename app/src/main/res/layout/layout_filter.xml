@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android               ="http://schemas.android.com/apk/res/android"
+    android:layout_width        ="match_parent"
+    android:layout_height       ="match_parent"
+    android:paddingLeft         ="16dp"
+    android:paddingRight        ="16dp"
+    android:orientation         ="vertical"
+    android:background          ="@android:color/white">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="10dp">
+
+        <EditText
+            android:id              ="@+id/start_date_edt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:hint            ="@string/start_date"
+            android:focusable       ="false"
+            android:inputType       ="date"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="10dp">
+
+        <EditText
+            android:id              ="@+id/end_date_edt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:hint            ="@string/end_date"
+            android:focusable       ="false"
+            android:inputType       ="date"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="10dp">
+
+        <EditText
+            android:id              ="@+id/start_amount_edt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:hint            ="@string/start_amount"
+            android:inputType       ="numberDecimal"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="10dp">
+
+        <EditText
+            android:id              ="@+id/end_amount_edt"
+            android:layout_width    ="match_parent"
+            android:layout_height   ="wrap_content"
+            android:hint            ="@string/end_amount"
+            android:inputType       ="numberDecimal"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width    ="match_parent"
+        android:layout_height   ="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id              ="@+id/reset_btn"
+            android:layout_width    ="wrap_content"
+            android:layout_height   ="wrap_content"
+            android:background      ="@color/colorPrimary"
+            android:text            ="@string/reset"
+            android:textColor       ="@android:color/white"/>
+
+        <Button
+            android:id                          ="@+id/apply_btn"
+            android:layout_width                ="wrap_content"
+            android:layout_height               ="wrap_content"
+            android:layout_alignParentEnd       ="true"
+            android:background                  ="@color/colorPrimary"
+            android:text                        ="@string/reset"
+            android:textColor                   ="@android:color/white" />
+
+    </RelativeLayout>
+
+</LinearLayout>

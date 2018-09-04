@@ -27,7 +27,8 @@
         <activity android:name=".activities.CategoriesActivity" />
         <activity android:name=".activities.ChoosePasscodeActivity" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.FilterActivity"></activity>
     </application>
 
 </manifest>

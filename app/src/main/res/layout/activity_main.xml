@@ -38,6 +38,10 @@
                 android:layout_margin               ="16dp"
                 android:src                         ="@drawable/ic_add"/>
 
+            <include
+                android:id  ="@+id/filter_layout"
+                layout      ="@layout/layout_filter"/>
+
         </RelativeLayout>
 
         <android.support.design.widget.NavigationView

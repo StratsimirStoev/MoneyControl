@@ -26,8 +26,14 @@ public class Utils {
     public static final String      INTENT_CATEGORY_ID                  = "category_id";
 
     public static String formatAmount(String amount){
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
-        return decimalFormat.format(Double.parseDouble(amount));
+        try {
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+            return decimalFormat.format(Double.parseDouble(amount));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+       return amount;
     }
 }

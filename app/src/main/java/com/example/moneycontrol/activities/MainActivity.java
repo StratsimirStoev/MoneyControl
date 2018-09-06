@@ -1,6 +1,8 @@
 package com.example.moneycontrol.activities;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +25,8 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
@@ -49,7 +53,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher,
+        NavigationView.OnNavigationItemSelectedListener, View.OnFocusChangeListener {
 
     private static final int               FILTER_REQUEST_CODE  = 0;
 
@@ -65,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout                   mDrawerLayout;
     private NavigationView                 mNavigationView;
     private LinearLayout                   mFilterLayout;
+    private EditText                       mFromAmountEdt;
+    private EditText                       mToAmountEdt;
+    private EditText                       mFromDateEdt;
+    private EditText                       mToDateEdt;
+    private Button                         mClearBtn;
+    private Button                         mApplyBtn;
 
     private double                         mDebit;
     private double                         mCredit;
@@ -98,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNavigationView         = findViewById(R.id.nav_view);
         mFilterImg              = findViewById(R.id.filter_img);
         mFilterLayout           = findViewById(R.id.filter_layout);
+        mFromAmountEdt          = findViewById(R.id.start_amount_edt);
+        mToAmountEdt            = findViewById(R.id.end_amount_edt);
+        mFromDateEdt            = findViewById(R.id.start_date_edt);
+        mToDateEdt              = findViewById(R.id.end_date_edt);
+        mApplyBtn               = findViewById(R.id.apply_btn);
+        mClearBtn               = findViewById(R.id.reset_btn);
 
         TextView mTitleTxt  = findViewById(R.id.title_txt);
 
@@ -122,6 +139,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearchEdt.addTextChangedListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
         mFilterImg.setOnClickListener(this);
+        mFromAmountEdt.setOnFocusChangeListener(this);
+        mToAmountEdt.setOnFocusChangeListener(this);
+        mApplyBtn.setOnClickListener(this);
+        mClearBtn.setOnClickListener(this);
+        mFromDateEdt.setOnClickListener(this);
+        mToDateEdt.setOnClickListener(this);
     }
 
     private void setAdapter(){
@@ -207,9 +230,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showFilterLayout(final boolean in){
+        if(in)
+            mAddFAB.hide();
+        else
+            mAddFAB.show();
+
         ObjectAnimator transAnimation= ObjectAnimator.ofFloat(mFilterLayout, "translationY", in ? -mFilterLayout.getHeight() : 0, in ? 0 : -mFilterLayout.getHeight());
         transAnimation.setDuration(300);//set duration
-        transAnimation.start();//start animation
+        transAnimation.start();//
+    }
+
+    private void showDatePicker(final EditText editText){
+
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                String myFormat = "dd-MMM-yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("bg"));
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                editText.setText(sdf.format(calendar.getTime()));
+            }
+        };
+
+        new DatePickerDialog(this, date, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     @Override
@@ -246,6 +300,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showFilterLayout(true);
             else
                 showFilterLayout(false);
+        }
+        else if(view.getId() == mFromDateEdt.getId())
+            showDatePicker(mFromDateEdt);
+        else if(view.getId() == mToDateEdt.getId())
+            showDatePicker(mToDateEdt);
+        else if(view.getId() == mClearBtn.getId()){
+            mFromDateEdt.setText("");
+            mToDateEdt.setText("");
+            mFromAmountEdt.setText("");
+            mToDateEdt.setText("");
+            mToAmountEdt.setText("");
+            showFilterLayout(false);
+        }
+        else if(view.getId() == mApplyBtn.getId()){
+            showFilterLayout(false);
         }
     }
 
@@ -286,6 +355,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return false;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if(!hasFocus)
+            ((EditText) v).setText(Utils.formatAmount(((EditText) v).getText().toString()));
     }
 
     private class DatabaseQuery extends AsyncTask<Void, Void, Void> {

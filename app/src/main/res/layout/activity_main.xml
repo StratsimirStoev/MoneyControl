@@ -13,8 +13,8 @@
         android:layout_height   ="match_parent">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width    ="match_parent"
+            android:layout_height   ="match_parent">
 
             <include
                 android:id      ="@+id/toolbar"
@@ -39,8 +39,11 @@
                 android:src                         ="@drawable/ic_add"/>
 
             <include
-                android:id  ="@+id/filter_layout"
-                layout      ="@layout/layout_filter"/>
+                android:id              ="@+id/filter_layout"
+                android:layout_below    ="@+id/toolbar"
+                android:layout_height   ="match_parent"
+                android:layout_width    ="match_parent"
+                layout                  ="@layout/layout_filter" />
 
         </RelativeLayout>
 

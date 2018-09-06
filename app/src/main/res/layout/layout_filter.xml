@@ -66,10 +66,30 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <LinearLayout
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="10dp">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id              ="@+id/debit_checkbox"
+            android:layout_width    ="wrap_content"
+            android:layout_height   ="wrap_content"
+            android:text            ="@string/debit"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id                  ="@+id/credit_checkbox"
+            android:layout_width        ="wrap_content"
+            android:layout_height       ="wrap_content"
+            android:layout_marginStart  ="15dp"
+            android:text                ="@string/credit"/>
+
+    </LinearLayout>
+
     <RelativeLayout
-        android:layout_width    ="match_parent"
-        android:layout_height   ="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_width        ="match_parent"
+        android:layout_height       ="wrap_content"
+        android:layout_marginTop    ="20dp">
 
         <Button
             android:id              ="@+id/reset_btn"
@@ -85,7 +105,7 @@
             android:layout_height               ="wrap_content"
             android:layout_alignParentEnd       ="true"
             android:background                  ="@color/colorPrimary"
-            android:text                        ="@string/reset"
+            android:text                        ="@string/apply"
             android:textColor                   ="@android:color/white" />
 
     </RelativeLayout>

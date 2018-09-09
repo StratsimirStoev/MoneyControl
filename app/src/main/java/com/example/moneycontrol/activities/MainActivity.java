@@ -56,8 +56,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher,
         NavigationView.OnNavigationItemSelectedListener, View.OnFocusChangeListener {
 
-    private static final int               FILTER_REQUEST_CODE  = 0;
-
     private ImageView                      mDrawerImg;
     private ImageView                      mSearchImg;
     private ImageView                      mCloseImg;
@@ -240,6 +238,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transAnimation.start();//
     }
 
+    private void filterTransactions(){
+
+    }
+
     private void showDatePicker(final EditText editText){
 
         final Calendar calendar = Calendar.getInstance();
@@ -272,9 +274,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(requestCode == Utils.REQUEST_CODE_ADD_TRANSACTION && resultCode == RESULT_OK){
             selectTransactions();
-        }
-        else if(requestCode == FILTER_REQUEST_CODE  && resultCode == RESULT_OK){
-
         }
     }
 
@@ -312,9 +311,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mToDateEdt.setText("");
             mToAmountEdt.setText("");
             showFilterLayout(false);
+            selectTransactions();
         }
         else if(view.getId() == mApplyBtn.getId()){
             showFilterLayout(false);
+            filterTransactions();
         }
     }
 

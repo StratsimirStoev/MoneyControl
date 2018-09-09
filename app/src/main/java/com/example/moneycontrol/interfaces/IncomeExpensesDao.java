@@ -25,4 +25,7 @@ public interface IncomeExpensesDao {
 
     @Query("SELECT SUM(mAmount) FROM income_expenses_table WHERE mIsDebit = :isDebit AND mDate BETWEEN :from AND :to")
     double getIncomeExpensesTotal(int isDebit, Date from, Date to);
+
+    @Query("SELECT * FROM income_expenses_table WHERE mIsDebit = :isDebit AND mDate BETWEEN :from AND :to AND mAmount >= :fromAmount AND mAmount <= :toAmount")
+    List<IncomeExpensesModel> filterTransactions(int isDebit, Date from, Date to, double fromAmount, double toAmount);
 }

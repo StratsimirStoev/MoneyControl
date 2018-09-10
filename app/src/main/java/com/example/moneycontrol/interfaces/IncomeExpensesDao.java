@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.moneycontrol.models.IncomeExpensesModel;
 
@@ -31,4 +32,7 @@ public interface IncomeExpensesDao {
 
     @Query("SELECT * FROM income_expenses_table WHERE mDate BETWEEN :from AND :to AND mAmount >= :fromAmount AND mAmount <= :toAmount")
     List<IncomeExpensesModel> filterTransactionsWithoutType(Date from, Date to, double fromAmount, double toAmount);
+
+    @Update
+    void update(IncomeExpensesModel incomeExpensesModel);
 }

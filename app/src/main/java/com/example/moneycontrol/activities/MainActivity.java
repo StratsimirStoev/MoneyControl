@@ -26,6 +26,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -56,7 +57,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher,
-        NavigationView.OnNavigationItemSelectedListener, View.OnFocusChangeListener {
+        NavigationView.OnNavigationItemSelectedListener, View.OnFocusChangeListener, AdapterView.OnItemClickListener {
 
     private ImageView                      mDrawerImg;
     private ImageView                      mSearchImg;
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAddFAB.setOnClickListener(this);
         mSearchEdt.addTextChangedListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
+        mTransactionsListView.setOnItemClickListener(this);
         mFilterImg.setOnClickListener(this);
         mFromAmountEdt.setOnFocusChangeListener(this);
         mToAmountEdt.setOnFocusChangeListener(this);
@@ -326,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == Utils.REQUEST_CODE_ADD_TRANSACTION && resultCode == RESULT_OK){
+        if((requestCode == Utils.REQUEST_CODE_ADD_TRANSACTION || requestCode == Utils.REQUEST_CODE_EDIT_TRANSACTION) && resultCode == RESULT_OK){
             selectTransactions();
         }
     }
@@ -424,6 +426,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onFocusChange(View v, boolean hasFocus) {
         if(!hasFocus)
             ((EditText) v).setText(Utils.formatAmount(((EditText) v).getText().toString()));
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (position > 0) {
+            Intent intent = new Intent(this, AddTransactionActivity.class);
+            intent.putExtra(Utils.INTENT_TRANSACTION, mTransactionsArrayList.get(position - 1));
+            startActivityForResult(intent, Utils.REQUEST_CODE_EDIT_TRANSACTION);
+        }
     }
 
     private class DatabaseQuery extends AsyncTask<Void, Void, Void> {

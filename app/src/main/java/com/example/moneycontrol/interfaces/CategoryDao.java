@@ -21,4 +21,7 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM categories_table WHERE mCategoryId = :categoryId")
     List<CategoryModel> getAllCategories(long categoryId);
+
+    @Query("SELECT * FROM categories_table WHERE mId = :id")
+    List<CategoryModel> getCategory(long id);
 }

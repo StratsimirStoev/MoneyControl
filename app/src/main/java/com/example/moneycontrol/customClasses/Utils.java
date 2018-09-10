@@ -12,6 +12,7 @@ public class Utils {
     public static final int         REQUEST_CODE_CHOOSE_CATEGORY        = 0;
     public static final int         REQUEST_CODE_CHOOSE_SUBCATEGORY     = 1;
     public static final int         REQUEST_CODE_ADD_TRANSACTION        = 2;
+    public static final int         REQUEST_CODE_EDIT_TRANSACTION       = 3;
 
     // PREFERENCES KEYS
     public static final String      PREFERENCES_PASSWORD                            = "password";
@@ -24,6 +25,7 @@ public class Utils {
     public static final String      FINGERPRINT_NOT_ALLOWED             = "fingerprint_not_allowed";
 
     public static final String      INTENT_CATEGORY_ID                  = "category_id";
+    public static final String      INTENT_TRANSACTION                  = "transaction";
 
     public static String formatAmount(String amount){
 

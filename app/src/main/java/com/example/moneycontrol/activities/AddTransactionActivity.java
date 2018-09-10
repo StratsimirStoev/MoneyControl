@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.moneycontrol.MoneyControlDatabase;
 import com.example.moneycontrol.R;
+import com.example.moneycontrol.customClasses.CustomEditText;
 import com.example.moneycontrol.customClasses.Utils;
 import com.example.moneycontrol.models.CategoryModel;
 import com.example.moneycontrol.models.IncomeExpensesModel;
@@ -29,11 +30,11 @@ import java.util.Locale;
 public class AddTransactionActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView           mBackArrowImg;
-    private EditText            mDateEdt;
-    private EditText            mCategoryEdt;
-    private EditText            mSubCategoryEdt;
-    private EditText            mAmountEdt;
-    private EditText            mDescriptionEdt;
+    private CustomEditText      mDateEdt;
+    private CustomEditText      mCategoryEdt;
+    private CustomEditText      mSubCategoryEdt;
+    private CustomEditText      mAmountEdt;
+    private CustomEditText      mDescriptionEdt;
     private Button              mSaveBtn;
     private AppCompatCheckBox   mDebitCheckbox;
     private AppCompatCheckBox   mCreditCheckbox;
@@ -130,9 +131,9 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             }
         };
 
-        new DatePickerDialog(this, date, calendar
-                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+        DatePickerDialog dialog = new DatePickerDialog(this, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+        dialog.show();
     }
 
     private void startCategoryActivity(int requestCode) {
@@ -144,25 +145,33 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     private void onSave(){
         if(mDateEdt.getText().toString().isEmpty()){
-
+            mDateEdt.showError();
             return;
         }
 
         if(mCategoryEdt.getText().toString().isEmpty()){
+            mCategoryEdt.showError();
+            return;
+        }
 
+        if(mSubCategoryEdt.getText().toString().isEmpty()){
+            mSubCategoryEdt.showError();
             return;
         }
 
         if(mAmountEdt.getText().toString().isEmpty()){
+            mAmountEdt.showError();
             return;
         }
 
         if(mDescriptionEdt.getText().toString().isEmpty()){
-
+            mDescriptionEdt.showError();
+            return;
         }
 
         if(!mDebitCheckbox.isChecked() && !mCreditCheckbox.isChecked()){
-
+            Toast.makeText(this, "Моля, изберете приход или разход!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         CrudDatabase saveInDatabase = new CrudDatabase();

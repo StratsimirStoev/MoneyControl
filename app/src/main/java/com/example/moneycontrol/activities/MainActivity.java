@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -72,8 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText                       mToAmountEdt;
     private EditText                       mFromDateEdt;
     private EditText                       mToDateEdt;
+    private AppCompatCheckBox              mDebitCheckbox;
+    private AppCompatCheckBox              mCreditCheckBox;
     private Button                         mClearBtn;
     private Button                         mApplyBtn;
+
+    private Date                           mDateFrom;
+    private Date                           mDateTo;
 
     private double                         mDebit;
     private double                         mCredit;
@@ -113,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToDateEdt              = findViewById(R.id.end_date_edt);
         mApplyBtn               = findViewById(R.id.apply_btn);
         mClearBtn               = findViewById(R.id.reset_btn);
+        mDebitCheckbox          = findViewById(R.id.debit_checkbox);
+        mCreditCheckBox         = findViewById(R.id.credit_checkbox);
 
         TextView mTitleTxt  = findViewById(R.id.title_txt);
 
@@ -143,6 +152,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClearBtn.setOnClickListener(this);
         mFromDateEdt.setOnClickListener(this);
         mToDateEdt.setOnClickListener(this);
+
+        CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    if(buttonView.getId() == mDebitCheckbox.getId())
+                        mCreditCheckBox.setChecked(false);
+                    else
+                        mDebitCheckbox.setChecked(false);
+                }
+
+            }
+        };
+
+        mDebitCheckbox.setOnCheckedChangeListener(listener);
+        mCreditCheckBox.setOnCheckedChangeListener(listener);
     }
 
     private void setAdapter(){
@@ -239,7 +264,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void filterTransactions(){
+        String fromAmount   = mFromAmountEdt.getText().toString();
+        String toAmount     = mToAmountEdt.getText().toString();
 
+        double fromAmountD  = 0d;
+        double toAmountD    = Double.MAX_VALUE ;
+
+        if(!fromAmount.isEmpty())
+            fromAmountD  = Double.parseDouble(fromAmount);
+
+        if(!toAmount.isEmpty())
+            toAmountD    = Double.parseDouble(toAmount);
+
+        if(mDateFrom == null)
+            mDateFrom = new Date(Long.MIN_VALUE);
+
+        if(mDateTo == null)
+            mDateTo = new Date(Long.MAX_VALUE);
+
+
+        DatabaseQuery query = new DatabaseQuery();
+        query.setFilterByType(mDebitCheckbox.isChecked() || mCreditCheckBox.isChecked());
+        query.setFilterTransactions(true);
+        query.setFromAmount(fromAmountD);
+        query.setToAmount(toAmountD);
+        query.execute();
     }
 
     private void showDatePicker(final EditText editText){
@@ -258,6 +307,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                if(editText.getId() == mFromDateEdt.getId())
+                    mDateFrom   = calendar.getTime();
+                else
+                    mDateTo     = calendar.getTime();
 
                 editText.setText(sdf.format(calendar.getTime()));
             }
@@ -311,6 +365,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mToDateEdt.setText("");
             mToAmountEdt.setText("");
             showFilterLayout(false);
+
+            mDateTo = null;
+            mDateFrom = null;
+            mToAmountEdt.setText("");
+            mFromAmountEdt.setText("");
+            mToDateEdt.setText("");
+            mFromDateEdt.setText("");
+
             selectTransactions();
         }
         else if(view.getId() == mApplyBtn.getId()){
@@ -366,6 +428,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class DatabaseQuery extends AsyncTask<Void, Void, Void> {
 
+        private boolean filterTransactions;
+        private boolean filterByType;
+        private double  fromAmount;
+        private double  toAmount;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -375,7 +442,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(Void... voids) {
 
-            selectTransactions();
+            if(filterByType || filterTransactions)
+                filterTransactions();
+            else
+                selectTransactions();
 
             return null;
         }
@@ -422,6 +492,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.setmDebit(mDebit);
             mAdapter.setmCredit(mCredit);
             mAdapter.setmTotal(mTotal);
+        }
+
+        private void filterTransactions(){
+            mTransactionsArrayList.clear();
+            MoneyControlDatabase database = MoneyControlDatabase.getDatabase(MainActivity.this);
+
+            if(filterByType){
+                mTransactionsArrayList.addAll(database.incomeExpensesDao().filterTransactions(mDebitCheckbox.isChecked() ? 1 : 0, mDateFrom, mDateTo, fromAmount, toAmount));
+            }
+            else
+                mTransactionsArrayList.addAll(database.incomeExpensesDao().filterTransactionsWithoutType(mDateFrom, mDateTo, fromAmount, toAmount));
+        }
+
+        public void setFilterTransactions(boolean filterTransactions) {
+            this.filterTransactions = filterTransactions;
+        }
+
+        public void setFilterByType(boolean filterByType) {
+            this.filterByType = filterByType;
+        }
+
+        public void setFromAmount(double fromAmount) {
+            this.fromAmount = fromAmount;
+        }
+
+        public void setToAmount(double toAmount) {
+            this.toAmount = toAmount;
         }
     }
 }

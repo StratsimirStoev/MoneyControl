@@ -1,12 +1,9 @@
 package com.example.moneycontrol.models;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "categories_table")
 public class CategoryModel implements Parcelable{

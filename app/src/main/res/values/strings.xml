@@ -51,4 +51,8 @@
     <string name="end_amount">Крайна сума</string>
     <string name="reset">ИЗЧИСТИ</string>
     <string name="apply">Приложи</string>
+    <string name="input_date">Въведи дата</string>
+    <string name="select_category">Избери категория</string>
+    <string name="enter_amount">Въведи сума</string>
+    <string name="enter_description">Въведи описание</string>
 </resources>

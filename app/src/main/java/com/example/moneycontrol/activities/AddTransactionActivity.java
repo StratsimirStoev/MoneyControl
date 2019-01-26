@@ -248,6 +248,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             mSelectedSubCategory    = data.getParcelableExtra(Utils.INTENT_EXTRA_CATEGORY_NAME);
             mSubCategoryEdt.setText(mSelectedSubCategory.getCategoryName());
         }
+
+        dsds
     }
 
     class CrudDatabase extends AsyncTask<Void, Void, Void> {
